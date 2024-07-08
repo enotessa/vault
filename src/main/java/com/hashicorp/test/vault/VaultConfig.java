@@ -9,6 +9,7 @@ import org.springframework.vault.authentication.TokenAuthentication;
 import org.springframework.vault.client.VaultClients;
 import org.springframework.vault.client.VaultEndpoint;
 import org.springframework.vault.config.AbstractVaultConfiguration;
+import org.springframework.vault.core.VaultWrappingOperations;
 import org.springframework.web.client.RestOperations;
 
 import java.io.File;
@@ -32,8 +33,9 @@ public class VaultConfig extends AbstractVaultConfiguration {
 
     @Override
     public ClientAuthentication clientAuthentication() {
-        String roleId = "9bc1c6dc-2fbf-ba94-656c-5d01b075a173"; // TODO
-        String secretId = "d7cd2ec8-5357-78f4-d528-cac3dd98a0ba";
+
+        String roleId = properties.getProperty("hashicorp.role.id");
+        String secretId = properties.getProperty("hashicorp.secret.id");
         if(roleId != null && secretId != null) {
             AppRoleAuthenticationOptions appRoleAuthenticationOptions = AppRoleAuthenticationOptions.builder()
                     .roleId(AppRoleAuthenticationOptions.RoleId.provided(roleId))
@@ -47,8 +49,9 @@ public class VaultConfig extends AbstractVaultConfiguration {
 
     @Override
     public VaultEndpoint vaultEndpoint() {
-        String url = properties.getProperty("hashicorp.secretPath");
-        this.vaultEndpoint = VaultEndpoint.from(URI.create("http://localhost:8080/"));
+        String url = properties.getProperty("hashicorp.url");
+        this.vaultEndpoint = VaultEndpoint.from(URI.create(url));
         return vaultEndpoint;
     }
+
 }

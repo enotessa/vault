@@ -1,14 +1,11 @@
 package com.hashicorp.test.secrets;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PassSecrets {
     private String dbPassword;
-
-    public String getDbPassword() {
-        return dbPassword;
-    }
-
-    public void setDbPassword(String dbPassword) {
-        this.dbPassword = dbPassword;
-    }
 
 }
